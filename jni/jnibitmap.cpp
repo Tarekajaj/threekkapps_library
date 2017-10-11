@@ -64,7 +64,9 @@ JNIEXPORT void JNICALL Java_com_threekkapps_library_bitmap_JniBitmap_floodFill(J
     						&& green >= (startColor[1] - tolerance)
     						&& green <= (startColor[1] + tolerance)
     						&& blue >= (startColor[2] - tolerance)
-    						&& blue <= (startColor[2] + tolerance));
+    						&& blue <= (startColor[2] + tolerance)
+    						&& alpha >= (startColor[3] - tolerance)
+    						&& alpha <= (startColor[3] + tolerance));
     	}else {
     		if(currentColor == oldColor){
 				return true;
@@ -97,11 +99,11 @@ void floodFill(uint32_t x, uint32_t y, uint32_t color, void* bitmapPixels, Andro
     	oldColor = pixels[y*bitmapInfo->width+x];
 
     	// Get red,green and blue values of the old color we like to chnage
-    	alpha = (int) ((color & 0xFF000000) >> 24);
+    	alpha = (int) ((oldColor & 0xFF000000) >> 24);
     	values[0] = (int) ((oldColor & 0xFF0000) >> 16) * alpha / 255; // red
     	values[1] = (int)((oldColor & 0x00FF00) >> 8) * alpha / 255; // Green
     	values[2] = (int) (oldColor & 0x0000FF) * alpha / 255; // Blue
-
+	values[3] = alpha;
 
     	alpha = (int) ((color & 0xFF000000) >> 24);
     	blue = (int) ((color & 0xFF0000) >> 16);
